@@ -22,21 +22,22 @@ function Movies() {
     if (response.data.Search) {
       setMovies(response.data.Search);
     }
+
+    console.log(response.data.Search)
+
    
   };
 
   const Dispatch = useDispatch()
 
   const ajouter = (movie)=>{
-    Dispatch({type:"ajouter", payload:movie})
+    Dispatch({type:"ajouter", payload:{...movie,quantity:1}})
   }
 
 
 
   return (
     <div className='app'>
-
-      <NavLink to='/panier'>panier</NavLink>
 
       <form>
         <h1>Movies</h1>
@@ -62,20 +63,24 @@ function Movies() {
         />
 
         <button type='button' onClick={handleSearch}>Search</button>
+        <NavLink to='/panier'><button type='button'><ion-icon name="cart-outline"></ion-icon></button></NavLink>
 
       </form>
 
 
       <div className='container'>
-        {movies.map((movie) => (
-          <div className="card">
+        {movies.map((movie,index) => (
+          <div className="card" key={index}>
             <div className="img">
               <img src={movie.Poster} alt="" />
             </div>
-            <p>{movie.Title}</p>
-            <p>Type: {movie.Type}</p>
-            <p>Year: {movie.Year}</p>
-            <button onClick={()=>{ajouter(movie)}}>ajouter</button>
+            <div className="info">
+              <p>{movie.Title}</p>
+              <p>Type: {movie.Type}</p>
+              <p>Year: {movie.Year}</p>
+              <button onClick={()=>{ajouter(movie)}}>ajouter +</button>
+            </div>
+
           </div>
         ))}
       </div>
